@@ -51,14 +51,14 @@ int main(void)
 
         int numuser = usercount();
         if (numuser == 1) 
-            sprintf(users, "%d user, ", numuser);
+            sprintf(users, "%3d user, ", numuser);
         else
-            sprintf(users, "%d users,", numuser);
+            sprintf(users, "%3d users,", numuser);
 
         double div = (float)(1 << SI_LOAD_SHIFT);
         sprintf(load, "load average: %.2f, %.2f, %.2f", info.loads[0] / div, info.loads[1] / div, info.loads[2] / div);
 
-        printf(" %-21s  %9s  %s\n", up, users, load);
+        printf(" %-21s  %10s %s\n", up, users, load);
     }
 }
 
