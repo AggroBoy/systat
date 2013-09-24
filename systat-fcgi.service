@@ -1,0 +1,12 @@
+[Unit]
+Description=System Status fCGI script
+
+[Service]
+ExecStart=/usr/bin/spawn-fcgi -n /usr/share/nginx/fcgi/systat.cgi -s /var/run/fcgi/systat.sock
+Type=simple
+User=http
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
+
