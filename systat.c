@@ -10,6 +10,7 @@
 void initialize(void)
 {
 }
+
 int usercount() {
     int numuser = 0;
     struct utmp *utmpstruct;
