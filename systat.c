@@ -4,8 +4,8 @@
 #include <string.h>
 #include <sys/sysinfo.h>
 #include <utmp.h>
-
-#define LINELEN 256
+#include <errno.h>
+#include <syslog.h>
 
 void initialize(void)
 {
@@ -30,22 +30,28 @@ int main(void)
     /* Initialization. */  
     initialize();
 
+    char up[1024];
+    char users[1024];
+    char load[1024];
+    char error[1024];
+
     /* Response loop. */
     while (FCGI_Accept() >= 0)   {
         printf("\n");
 
-        char up[1024];
-        char users[1024];
-        char load[1024];
-
         struct sysinfo info;
-        sysinfo(&info);
+        if (sysinfo(&info) == -1) {
+            sprintf(error, "sysinfo(2) call failed: (%d) %s", errno, strerror(errno));
+            syslog(LOG_ERR, error);
+            printf("Error.");
+            continue;
+        }
 
         long minutes = info.uptime / 60;
         long hours = minutes / 60;
-        if ( hours >= 48 )
+        if (hours >= 48)
             sprintf(up, "up: %ld days, %ld:%02ld,", hours / 24, hours % 24, minutes % 60);
-        else if ( hours >= 24 )
+        else if (hours >= 24)
             sprintf(up, "up: 1 day, %ld:%02ld,", hours % 24, minutes % 60);
         else
             sprintf(up, "up: %ld:%02ld,", hours % 24, minutes % 60);
