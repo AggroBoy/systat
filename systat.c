@@ -50,12 +50,15 @@ int main(void)
             sprintf(up, "up: %ld:%02ld,", hours % 24, minutes % 60);
 
         int numuser = usercount();
-        sprintf(users, "%d users", numuser);
+        if (numuser == 1) 
+            sprintf(users, "%d user, ", numuser);
+        else
+            sprintf(users, "%d users,", numuser);
 
         double div = (float)(1 << SI_LOAD_SHIFT);
         sprintf(load, "load average: %.2f, %.2f, %.2f", info.loads[0] / div, info.loads[1] / div, info.loads[2] / div);
 
-        printf(" %-21s  %8s,  %s\n", up, users, load);
+        printf(" %-21s  %9s  %s\n", up, users, load);
     }
 }
 
