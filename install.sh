@@ -8,4 +8,5 @@ sudo mkdir -p /var/run/fcgi
 sudo chown http:http /var/run/fcgi
 sudo systemctl --system daemon-reload
 sudo systemctl start systat-fcgi
+sudo cp fcgi.conf /etc/tmpfiles.d
 
